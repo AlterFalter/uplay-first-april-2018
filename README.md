@@ -1,5 +1,5 @@
 # Ubisoft Uplay April Fools "admin_console" code decryptor
----
+
 Decodes the encrypted message from the text adventure easter egg.
 
     Usage:
