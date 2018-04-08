@@ -1,5 +1,12 @@
-# Uplay First April 2018
+# Ubisoft Uplay April Fools "admin_console" code decryptor
+---
+Decodes the encrypted message from the text adventure easter egg.
 
-A little decoder for the Uplay 2018 1. April joke/easter egg.
+    Usage:
+        UbiFirstApril [encText, encKey | /h]
+            encText: Encrypted text to decrypt.
+             encKey: Encryption key to decrypt text with.
+                 /h: Displays this help message.
 
-Happy easter every one
+    Using no parameters will prompt for the encrypted text
+    and encryption key.
