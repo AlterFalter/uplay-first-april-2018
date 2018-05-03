@@ -1,7 +1,0 @@
-D:\UbiFirstApril\UbiFirstApril\bin\Debug\UbiFirstApril.exe.config
-D:\UbiFirstApril\UbiFirstApril\bin\Debug\UbiFirstApril.exe
-D:\UbiFirstApril\UbiFirstApril\bin\Debug\UbiFirstApril.pdb
-D:\UbiFirstApril\UbiFirstApril\obj\Debug\UbiFirstApril.csprojResolveAssemblyReference.cache
-D:\UbiFirstApril\UbiFirstApril\obj\Debug\UbiFirstApril.csproj.CoreCompileInputs.cache
-D:\UbiFirstApril\UbiFirstApril\obj\Debug\UbiFirstApril.exe
-D:\UbiFirstApril\UbiFirstApril\obj\Debug\UbiFirstApril.pdb

@@ -1,60 +1,87 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace UbiFirstApril
 {
     class Program
     {
+        static string DecryptCode(string encText, string encKey)
+        {
+            if (string.IsNullOrWhiteSpace(encText))
+                throw new ArgumentException("'Encryption Text' is required.", nameof(encText));
+
+            if (string.IsNullOrWhiteSpace(encKey))
+                throw new ArgumentException("'Encryption Key' Value is required.", nameof(encKey));
+
+            int[] charIndicies = Array.ConvertAll(encKey.Split(' '), s => int.Parse(s));
+
+            if (encText.Length != charIndicies.Length)
+                throw new ArgumentException("'Encryption Key' length does not match 'Encrypted Text' length.", nameof(encKey));
+
+            StringBuilder decryptedText = new StringBuilder(encText);
+
+            for (int i = 0; i < charIndicies.Length; i++)
+                decryptedText[charIndicies[i] - 1] = encText[i];
+
+            return decryptedText.ToString();
+        }
+
         static void Main(string[] args)
         {
-            bool askForInputsAgain = true;
-            while (askForInputsAgain)
+            string decryptedCode = null;
+
+            try
             {
-                Console.WriteLine("Numbers: ");
-                string numbers = Console.ReadLine();
-                Console.WriteLine("Voice/Text: ");
-                string text = Console.ReadLine();
+                if (args.Length == 1)
+                {
+                    string helpMessage =
+                        "Ubisoft Uplay April Fools \"admin_console\" code decryptor" + Environment.NewLine +
+                        new string('-', 60) + Environment.NewLine +
+                        "Usage:" + Environment.NewLine +
+                        "    UbiFirstApril [encText, encKey | /h]" + Environment.NewLine +
+                        "        encText: Encrypted text to decrypt." + Environment.NewLine +
+                        "         encKey: Encryption key to decrypt text with." + Environment.NewLine +
+                        "             /h: Displays this help message." + Environment.NewLine +
+                        Environment.NewLine +
+                        "    Using no parameters will prompt for the encrypted text" + Environment.NewLine +
+                        "    and encryption key.";
 
-                try
-                {
-                    List<int> convertedNumbers = numbers.Split(' ').Where(n => !string.IsNullOrEmpty(n)).Select(n => Convert.ToInt32(n)).ToList();
-                    int highestValue = convertedNumbers.Max();
-                    string[] sortedText = new string[highestValue + 1];
+                    Console.WriteLine(helpMessage);
+                    Console.WriteLine();
 
-                    if (convertedNumbers.Count == text.Length)
-                    {
-                        for (int i = 0; i < convertedNumbers.Count; i++)
-                        {
-                            string character = text.ElementAt(i).ToString();
-                            sortedText[convertedNumbers[i]] = character;
-                        }
+                    Environment.Exit(0);
+                }
 
-                        string result = String.Join("", sortedText.Where(s => !string.IsNullOrEmpty(s)));
-                        Console.WriteLine("Result: " + result);
-                        askForInputsAgain = false;
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Your inputs are wrong!\nAmount numbers: {convertedNumbers.Count}\nAmount characters in text: {text.Length}");
-                    }
-                }
-                catch (FormatException ex)
+                else if (args.Length == 2)
+                    decryptedCode = DecryptCode(args[0], args[1]);
+
+                else
                 {
-                    Console.WriteLine($"One of your numbers is not a real number!\nException: {ex}");
+                    Console.WriteLine("Enter encrypted text:");
+                    string encryptedText = Console.ReadLine();
+                    Console.WriteLine();
+
+                    Console.WriteLine("Enter encryption key:");
+                    string encryptionKey = Console.ReadLine();
+                    Console.WriteLine();
+
+                    decryptedCode = DecryptCode(encryptedText, encryptionKey);
                 }
-                catch (OverflowException ex)
-                {
-                    Console.WriteLine($"You have written a to high number!\nException: {ex}");
-                }
-                catch (InvalidOperationException ex)
-                {
-                    Console.WriteLine($"Please check your inputs! Maybe you mistaken the order of the inputs.\nException: {ex}");
-                }
-                Console.ReadKey();
+
+                Console.WriteLine("Decrypted Text:");
+                Console.WriteLine(decryptedCode);
             }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine("Unable to decrypt code. Please check your inputs and try again.");
+                Console.WriteLine("Error Details:");
+                Console.WriteLine(ex.Message.ToString());
+            }
+
+            Console.WriteLine();
+            Console.Write("Press any key to exit.");
+            Console.Read();
         }
     }
 }
